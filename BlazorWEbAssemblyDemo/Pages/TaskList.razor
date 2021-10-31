@@ -5,7 +5,8 @@
 
 @if (Tasks == null)
 {
-<div>Loadding</div> }
+<Loading />
+ }
 else
 {
 <div class="row">
@@ -38,7 +39,7 @@ else
                 <td>@item.CreatedDate.ToString("dd/MM/yyy hh:mm")</td>
                 <td>@item.Status</td>
                 <td>
-                    <a href="/taskDetails/@item.Id" class="btn btn-primary">Detail</a>
+                    <a href="/taskDetail/@item.Id" class="btn btn-primary">Detail</a>
                     <a href="/taskEdit/@item.Id" class="btn btn-warning">Edit</a>
                     <button class="btn btn-danger">Delete</button>
 
@@ -50,5 +51,4 @@ else
                             @*<Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage"></Pagination>*@
                         </tfoot>
                     </table>
-                </div>
-                }
+                </div>}
