@@ -1,16 +1,51 @@
 ﻿@page "/TaskList"
-@using BlazorWEbAssemblyDemo.Pages;
 
-<h3>Todo List</h3>
+<h3>Task List</h3>
 
 @if (Tasks == null)
 {
-<Loading />
+        <Loading />
  }
 else
 {
 <div class="row">
+    <EditForm Model="@TaskListSearch">
+        <div class="row">
+            <div class="col">
+                <label>Name</label>
+                <InputText class="form-control" @bind-Value="TaskListSearch.Name"></InputText>
+            </div>
 
+            <div class="col">
+                <label>Assignee</label>
+                <InputSelect class="form-control" @bind-Value="TaskListSearch.AssigneeId">
+                    <option>--Select--</option>
+                    @foreach (var assignee in Assignees)
+                        {
+                        <option value="@assignee.Id">@assignee.FullName</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="col">
+                <label>Priority</label>
+                <InputSelect class="form-control" @bind-Value="TaskListSearch.Priority">
+                    <option>--Select--</option>
+                    @foreach (string item in Enum.GetNames(typeof(Priority)))
+                        {
+                        <option value="@item">@item</option>
+                        }
+                </InputSelect>
+            </div>
+
+            <div class="col button-top">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            <div class="col button-top">
+                <a href="/taskCreate" class="btn btn-success">Create</a>
+            </div>
+        </div>
+    </EditForm>
 </div>
 
                 <div class="row mt-4">

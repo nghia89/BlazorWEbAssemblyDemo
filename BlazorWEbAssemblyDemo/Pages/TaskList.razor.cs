@@ -8,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace BlazorWEbAssemblyDemo.Pages
 {
-    public partial class TodoList
+    public partial class TaskList
     {
         [Inject] private ITaskApiClient TaskApiClient { set; get; }
+        [Inject] private IUserApiClient UserApiClient { set; get; }
+
+
+        private TaskListSearch TaskListSearch = new TaskListSearch();
+
+        private List<AssigneeDto> Assignees;
+
 
         private List<TaskDto> Tasks;
 
@@ -24,9 +31,11 @@ namespace BlazorWEbAssemblyDemo.Pages
         {
 
             var pagingResponse = await TaskApiClient.GetTaskList(new TaskListSearch() { });
+            Assignees = await UserApiClient.GetAssignees();
             Tasks = pagingResponse.Items;
 
         }
+
     }
 
 
