@@ -9,7 +9,7 @@
 else
 {
 <div class="row">
-    <EditForm Model="@TaskListSearch">
+    <EditForm Model="@TaskListSearch" OnSubmit=@SearchTask>
         <div class="row">
             <div class="col">
                 <label>Name</label>
@@ -19,7 +19,7 @@ else
             <div class="col">
                 <label>Assignee</label>
                 <InputSelect class="form-control" @bind-Value="TaskListSearch.AssigneeId">
-                    <option>--Select--</option>
+                    <option value="">--Select--</option>
                     @foreach (var assignee in Assignees)
                         {
                         <option value="@assignee.Id">@assignee.FullName</option>
@@ -30,7 +30,7 @@ else
             <div class="col">
                 <label>Priority</label>
                 <InputSelect class="form-control" @bind-Value="TaskListSearch.Priority">
-                    <option>--Select--</option>
+                    <option value="">--Select--</option>
                     @foreach (string item in Enum.GetNames(typeof(Priority)))
                         {
                         <option value="@item">@item</option>
