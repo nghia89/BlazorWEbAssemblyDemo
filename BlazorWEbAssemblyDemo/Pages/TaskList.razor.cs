@@ -1,4 +1,5 @@
-﻿using BlazorWEbAssemblyDemo.Models;
+﻿using Blazored.Toast.Services;
+using BlazorWEbAssemblyDemo.Models;
 using BlazorWEbAssemblyDemo.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -13,7 +14,6 @@ namespace BlazorWEbAssemblyDemo.Pages
     {
         [Inject] private ITaskApiClient TaskApiClient { set; get; }
         [Inject] private IUserApiClient UserApiClient { set; get; }
-
 
         private TaskListSearch TaskListSearch = new TaskListSearch();
 

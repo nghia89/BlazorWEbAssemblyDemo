@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using BlazorWEbAssemblyDemo.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ namespace BlazorWEbAssemblyDemo
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
             builder.Services.AddTransient<ITaskApiClient, TaskApiClient>();
-            builder.Services.AddScoped<ToastService>();
+            builder.Services.AddBlazoredToast();
             builder.Services.AddTransient<IUserApiClient, UserApiClient>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001")});
 

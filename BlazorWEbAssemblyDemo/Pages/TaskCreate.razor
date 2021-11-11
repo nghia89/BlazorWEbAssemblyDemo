@@ -1,6 +1,6 @@
 ﻿
 @page "/taskCreate"
-
+@inject IToastService toastService
 @inject ITaskApiClient TaskApiClient;
 @inject NavigationManager NavigationManager;
 
@@ -34,6 +34,7 @@
 
 
 @code {
+
     private TaskCreateRequest Task = new TaskCreateRequest();
 
     private async Task SubmitTask(EditContext context)
@@ -41,12 +42,12 @@
         var result = await TaskApiClient.CreateTask(Task);
         if (result)
         {
-            //ToastService.ShowSuccess($"{Task.Name} has been created successfully.", "Success");
+            toastService.ShowSuccess($"{Task.Name} has been created successfully.", "Success");
             NavigationManager.NavigateTo("/taskList");
         }
         else
         {
-           // ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+            toastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
 
         }
     }
