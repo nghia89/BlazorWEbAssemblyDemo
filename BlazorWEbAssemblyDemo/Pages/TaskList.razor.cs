@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorWEbAssemblyDemo.Components;
+using BlazorWEbAssemblyDemo.Models.SeedWork;
 
 namespace BlazorWEbAssemblyDemo.Pages
 {
@@ -16,6 +17,7 @@ namespace BlazorWEbAssemblyDemo.Pages
         [Inject] private ITaskApiClient TaskApiClient { set; get; }
         [Inject] private IUserApiClient UserApiClient { set; get; }
 
+        public MetaData MetaData { get; set; } = new MetaData();
         protected Confirmation DeleteConfirmation { set; get; }
 
         private TaskListSearch TaskListSearch = new TaskListSearch();
@@ -29,6 +31,7 @@ namespace BlazorWEbAssemblyDemo.Pages
             {
                 var pagingResponse = await TaskApiClient.GetTaskList(TaskListSearch);
                 Tasks = pagingResponse.Items;
+                MetaData = pagingResponse.MetaData;
             }
             catch (Exception ex)
             {
@@ -41,6 +44,8 @@ namespace BlazorWEbAssemblyDemo.Pages
         {
             await GetTasks();
         }
+
+
 
 
         public async Task onsearchTaskList(TaskListSearch taskListSearch)
@@ -65,6 +70,11 @@ namespace BlazorWEbAssemblyDemo.Pages
             }
         }
 
+        private async Task SelectedPage(int page)
+        {
+            TaskListSearch.PageNumber = page;
+            await GetTasks();
+        }
     }
 
 
