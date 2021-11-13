@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorWEbAssemblyDemo.Components;
 
 namespace BlazorWEbAssemblyDemo.Pages
 {
@@ -15,8 +16,10 @@ namespace BlazorWEbAssemblyDemo.Pages
         [Inject] private ITaskApiClient TaskApiClient { set; get; }
         [Inject] private IUserApiClient UserApiClient { set; get; }
 
-        private TaskListSearch TaskListSearch = new TaskListSearch();
+        protected Confirmation DeleteConfirmation { set; get; }
 
+        private TaskListSearch TaskListSearch = new TaskListSearch();
+        private Guid DeleteId { get; set; }
 
         private List<TaskDto> Tasks;
 
@@ -34,7 +37,7 @@ namespace BlazorWEbAssemblyDemo.Pages
 
         }
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             await GetTasks();
         }
@@ -44,6 +47,22 @@ namespace BlazorWEbAssemblyDemo.Pages
         {
             TaskListSearch = taskListSearch;
             await GetTasks();
+        }
+        public void OnDeleteTask(Guid deleteId)
+        {
+            DeleteId = deleteId;
+            DeleteConfirmation.Show();
+        }
+
+
+
+        public async Task OnConfirmDeleteTask(bool deleteConfirmed)
+        {
+            if (deleteConfirmed)
+            {
+                await TaskApiClient.DeleteTask(DeleteId);
+                await GetTasks();
+            }
         }
 
     }
