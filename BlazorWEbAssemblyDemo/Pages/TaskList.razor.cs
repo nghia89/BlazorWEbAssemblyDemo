@@ -17,41 +17,34 @@ namespace BlazorWEbAssemblyDemo.Pages
 
         private TaskListSearch TaskListSearch = new TaskListSearch();
 
-        private List<AssigneeDto> Assignees;
-
-
-
 
         private List<TaskDto> Tasks;
 
-
-        protected override async Task OnInitializedAsync()
-        {
-            await GetTasks();
-        }
-
-        //public async Task SearchTask(TaskListSearch taskListSearch)
-        //{
-        //    TaskListSearch = taskListSearch;
-        //    await GetTasks();
-        //}
-
-
-        private async Task SearchTask(EditContext context)
-        {
-            //TaskListSearch = taskListSearch;
-            await GetTasks();
-
-        }
-
         private async Task GetTasks()
         {
+            try
+            {
+                var pagingResponse = await TaskApiClient.GetTaskList(TaskListSearch);
+                Tasks = pagingResponse.Items;
+            }
+            catch (Exception ex)
+            {
+                //Error.ProcessError(ex);
+            }
 
-            var pagingResponse = await TaskApiClient.GetTaskList(TaskListSearch);
-            Assignees = await UserApiClient.GetAssignees();
-            Tasks = pagingResponse.Items;
         }
 
+        protected async override Task OnInitializedAsync()
+        {
+            await GetTasks();
+        }
+
+
+        public async Task onsearchTaskList(TaskListSearch taskListSearch)
+        {
+            TaskListSearch = taskListSearch;
+            await GetTasks();
+        }
 
     }
 
