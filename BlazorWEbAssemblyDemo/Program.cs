@@ -1,5 +1,7 @@
+using Blazored.LocalStorage;
 using Blazored.Toast;
 using BlazorWEbAssemblyDemo.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,10 @@ namespace BlazorWEbAssemblyDemo
             builder.Services.AddTransient<ITaskApiClient, TaskApiClient>();
             builder.Services.AddBlazoredToast();
             builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+            builder.Services.AddTransient<IAuthService, AuthService>();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001")});
 
             await builder.Build().RunAsync();

@@ -15,8 +15,8 @@ namespace TodoList.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class TasksController : ControllerBase
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class TasksController : Controller
     {
         private readonly ITaskRepository _taskRepository;
 
@@ -29,6 +29,7 @@ namespace TodoList.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] TaskListSearch taskListSearch)
         {
+            var userId = User.GetUserId();
             var pagedList = await _taskRepository.GetTaskList(taskListSearch);
             var taskDtos = pagedList.Items.Select(x => new TaskDto()
             {
